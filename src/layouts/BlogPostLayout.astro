@@ -2,7 +2,7 @@
 import BaseLayout from './BaseLayout.astro';
 import TableOfContents from '../components/TableOfContents.astro';
 import CopyCodeButton from '../components/CopyCodeButton.astro';
-import GiscusComments from '../components/GiscusComments.astro';
+import CusdisComments from '../components/CusdisComments.astro';
 import { ArrowLeft } from '@lucide/astro';
 
 interface Props {
@@ -53,7 +53,7 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
   </div>
   
   <div class="mt-16 pt-8 border-t border-subtle">
-    <GiscusComments />
+    <CusdisComments title={title} url={Astro.url.href} id={Astro.url.pathname} />
   </div>
   
   <CopyCodeButton />
