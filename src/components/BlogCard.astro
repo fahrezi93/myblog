@@ -17,9 +17,9 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
 ---
 
 <article class="group relative py-5 border-b border-subtle hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors -mx-4 px-4 rounded-lg">
-  <div class="flex items-center justify-between gap-2 font-mono text-xs text-muted">
-    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
-    <div class="flex gap-1.5">
+  <div class="flex flex-wrap items-center justify-between gap-y-2 gap-x-4 font-mono text-xs text-muted">
+    <time class="shrink-0" datetime={pubDate.toISOString()}>{formattedDate}</time>
+    <div class="flex flex-wrap gap-1.5">
       {tags.map((tag: string) => (
         <span class="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-muted border border-subtle">
           #{tag}

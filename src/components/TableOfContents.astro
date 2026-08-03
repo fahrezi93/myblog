@@ -9,7 +9,7 @@ const filteredHeadings = headings.filter((h) => h.depth <= 3);
 
 {filteredHeadings.length > 0 && (
   <nav class="font-mono text-sm">
-    <h2 class="text-xs uppercase tracking-wider text-muted mb-4 font-semibold">On this page</h2>
+    <h2 class="text-xs uppercase tracking-wider text-muted mb-4 font-semibold">Di halaman ini</h2>
     <ul class="space-y-2.5">
       {filteredHeadings.map((heading) => (
         <li class={`${heading.depth === 3 ? 'ml-4' : ''}`}>

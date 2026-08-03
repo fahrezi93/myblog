@@ -21,23 +21,27 @@ const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 async function generatePost() {
   console.log('Generating new blog post with Gemini...');
 
+  // Dapatkan tanggal hari ini untuk disisipkan ke prompt
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+
   // Ini adalah prompt inti atau "roh" dari artikel yang akan dibuat
   const prompt = `
 You are Mohammad Fahrezi, an expert Fullstack Developer and Graphic Designer from Indonesia.
-Your task is to write a highly technical, insightful, and engaging blog post about a very recent, trending topic in Frontend Development, AI Coding Tools, Web Performance, or UI/UX Design.
-The article must be written in Indonesian (Bahasa Indonesia) with a casual, human, but professional tone (use words like "Saya", "ngulik", "keren banget"), suitable for a personal developer blog.
-It should be well-structured with code snippets where applicable.
+Your task is to write a short, concise, and highly technical blog post about a very recent, trending topic in Frontend Development, AI Coding Tools, Web Performance, or UI/UX Design from the last 7 days.
+The article must be written in good, accessible Indonesian (Bahasa Indonesia) suitable for a professional software engineer's blog. Keep the tone calm, minimalist, and to the point (do not use excessive slang or overly exaggerated words).
+Limit the content length. Make it a quick read (around 3 to 5 short paragraphs) and include relevant code snippets if applicable.
 
 IMPORTANT RULES:
 1. Output MUST be ONLY raw Markdown text. Do NOT wrap the entire output in markdown code blocks like \`\`\`markdown.
 2. The output MUST start with valid Astro MDX frontmatter between --- lines.
-3. The frontmatter MUST include: title, description, pubDate (in YYYY-MM-DD format, use today's date), tags (array of strings), featured (boolean), and draft (false).
+3. The frontmatter MUST include: title, description, pubDate (MUST BE EXACTLY "${formattedDate}"), tags (array of strings), featured (boolean), and draft (false).
 
 Example of correct format:
 ---
 title: "Tren Framework UI di Tahun 2026"
 description: "Melihat bagaimana React 19 dan SolidJS mendominasi pasar."
-pubDate: "2026-08-03"
+pubDate: "${formattedDate}"
 tags: ["frontend", "react", "ui"]
 featured: false
 draft: false
@@ -48,7 +52,7 @@ Halo, ini Fahrezi! Hari ini kita akan bahas...
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-3.5-flash-lite',
+      model: 'gemini-3.1-flash-lite',
       contents: prompt,
       config: {
         temperature: 0.7 // Membuat gaya bahasa lebih kreatif dan natural

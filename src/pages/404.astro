@@ -1,0 +1,51 @@
+---
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '../styles/global.css';
+---
+
+<!DOCTYPE html>
+<html lang="en" class="antialiased">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>404: Not Found</title>
+    
+    <script is:inline>
+      // Dark mode script supaya 404 tetap mengikuti tema browser/sistem
+      const getThemePreference = () => {
+        if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
+          return localStorage.getItem('theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+      const isDark = getThemePreference() === 'dark';
+      document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+    </script>
+  </head>
+  
+  <body class="flex items-center justify-center min-h-screen bg-white dark:bg-[#111111] text-[#111111] dark:text-[#FAFAFA]">
+    <div class="flex flex-col items-center justify-center p-6 text-center">
+      <div class="mb-4">
+        <span class="text-9xl font-bold tracking-tighter text-transparent bg-clip-text bg-gradient-to-br from-zinc-800 to-zinc-300 dark:from-zinc-100 dark:to-zinc-600">
+          404
+        </span>
+      </div>
+      
+      <h1 class="text-xl font-medium tracking-tight mb-2">Halaman tidak ditemukan.</h1>
+      
+      <p class="text-muted max-w-sm mx-auto mb-8 text-sm leading-relaxed">
+        Sepertinya Anda tersesat. Halaman yang Anda tuju tidak ada di sini.
+      </p>
+      
+      <a 
+        href="/" 
+        class="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-subtle hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-colors font-medium text-sm"
+      >
+        ← Kembali ke Beranda
+      </a>
+    </div>
+  </body>
+</html>

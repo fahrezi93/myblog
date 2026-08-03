@@ -2,12 +2,12 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
 
-const posts = await getCollection('blog', ({ data }) => !data.draft);
+const posts = await getCollection('blog', ({ data }: { data: any }) => !data.draft);
 const tags = [...new Set(posts.map((post: any) => post.data.tags).flat())].sort();
 ---
 
-<BaseLayout title="Tags | fahreziblog">
-  <h1 class="text-3xl font-medium tracking-tight mb-8">Tags</h1>
+<BaseLayout title="Kumpulan Tag | fahreziblog">
+  <h1 class="text-3xl font-medium tracking-tight mb-8">Kumpulan Tag</h1>
   
   <div class="flex flex-wrap gap-3">
     {tags.map((tag: any) => (
@@ -17,7 +17,7 @@ const tags = [...new Set(posts.map((post: any) => post.data.tags).flat())].sort(
       >
         #{tag}
         <span class="ml-2 text-xs opacity-60">
-          {posts.filter(p => p.data.tags.includes(tag)).length}
+          {posts.filter((p: any) => p.data.tags.includes(tag)).length}
         </span>
       </a>
     ))}

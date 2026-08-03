@@ -1,33 +1,77 @@
 ---
-import { Moon, Sun } from '@lucide/astro';
+import { Moon, Sun, Menu, X } from '@lucide/astro';
 ---
 
-<header class="w-full max-w-3xl mx-auto px-6 py-4 border-b border-subtle flex items-center justify-between">
-  <a href="/" class="font-mono font-bold text-lg hover-text-accent transition-colors">
-    fahreziblog
-  </a>
-  <nav class="flex items-center gap-6 text-sm">
-    <a href="/blog" class="hover-text-accent transition-colors">Blog</a>
-    <a href="/tags" class="hover-text-accent transition-colors">Tags</a>
-    <a href="/about" class="hover-text-accent transition-colors">About</a>
+<div class="sticky top-0 z-50 w-full bg-white/80 dark:bg-[#111111]/80 backdrop-blur-md border-b border-subtle">
+  <header class="w-full max-w-3xl mx-auto px-6 py-4 flex items-center justify-between relative">
+    <a href="/" class="font-mono font-bold text-lg hover-text-accent transition-colors">
+      fahreziblog
+    </a>
     
-    <button 
-      id="theme-toggle"
-      class="p-2 -mr-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
-      aria-label="Toggle theme"
-    >
-      <Sun class="w-4 h-4 hidden dark:block text-muted hover:text-[#FAFAFA]" />
-      <Moon class="w-4 h-4 block dark:hidden text-muted hover:text-[#111111]" />
-    </button>
-  </nav>
-</header>
+    <div class="flex items-center gap-2 sm:gap-6">
+      <!-- Desktop Nav -->
+      <nav class="hidden sm:flex items-center gap-6 text-sm">
+        <a href="/blog" class="hover-text-accent transition-colors">Blog</a>
+        <a href="/tags" class="hover-text-accent transition-colors">Tag</a>
+        <a href="/about" class="hover-text-accent transition-colors">Tentang</a>
+      </nav>
+      
+      <!-- Theme Toggle -->
+      <button 
+        id="theme-toggle"
+        class="p-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+        aria-label="Toggle theme"
+      >
+        <Sun class="w-4 h-4 hidden dark:block text-muted hover:text-[#FAFAFA]" />
+        <Moon class="w-4 h-4 block dark:hidden text-muted hover:text-[#111111]" />
+      </button>
+
+      <!-- Mobile Menu Toggle -->
+      <button 
+        id="mobile-menu-toggle"
+        class="p-2 sm:hidden rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+        aria-label="Toggle mobile menu"
+      >
+        <Menu class="w-5 h-5 text-muted hover:text-[#111111] dark:hover:text-[#FAFAFA]" id="menu-icon" />
+        <X class="w-5 h-5 hidden text-muted hover:text-[#111111] dark:hover:text-[#FAFAFA]" id="close-icon" />
+      </button>
+    </div>
+  </header>
+
+  <!-- Mobile Nav Dropdown -->
+  <div id="mobile-menu" class="hidden sm:hidden absolute top-full left-0 w-full px-6 py-4 border-b border-subtle bg-white/95 dark:bg-[#111111]/95 backdrop-blur-md">
+    <nav class="flex flex-col gap-4 text-sm font-medium">
+      <a href="/blog" class="hover-text-accent transition-colors">Blog</a>
+      <a href="/tags" class="hover-text-accent transition-colors">Tag</a>
+      <a href="/about" class="hover-text-accent transition-colors">Tentang</a>
+    </nav>
+  </div>
+</div>
 
 <script>
-  const toggle = document.getElementById('theme-toggle');
-  
-  toggle?.addEventListener('click', () => {
+  // Theme Toggle Logic
+  const themeToggle = document.getElementById('theme-toggle');
+  themeToggle?.addEventListener('click', () => {
     const isDark = document.documentElement.classList.contains('dark');
     document.documentElement.classList[isDark ? 'remove' : 'add']('dark');
     localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+
+  // Mobile Menu Logic
+  const menuToggle = document.getElementById('mobile-menu-toggle');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  menuToggle?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+    
+    if (mobileMenu?.classList.contains('hidden')) {
+      menuIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('hidden');
+    } else {
+      menuIcon?.classList.add('hidden');
+      closeIcon?.classList.remove('hidden');
+    }
   });
 </script>

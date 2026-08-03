@@ -21,11 +21,14 @@ const recentPosts = sortedPosts
 <BaseLayout title="fahreziblog - Tips, Tricks & Tech Notes">
   <section class="py-10 mb-12 border-b border-subtle">
     <div class="flex items-center gap-3 mb-4">
-      <div class="relative flex h-2.5 w-2.5">
-        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
-        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"></span>
+      <div class="relative flex h-2.5 w-2.5 shrink-0">
+        <span
+          class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+        ></span>
+        <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-green-500"
+        ></span>
       </div>
-      <span class="text-sm font-mono text-muted">Available for freelance work</span>
+      <span class="text-xs sm:text-sm font-mono text-muted whitespace-nowrap">Available for freelance</span>
     </div>
 
     <h1 class="text-4xl font-medium tracking-tight mb-4">
@@ -33,7 +36,10 @@ const recentPosts = sortedPosts
     </h1>
 
     <p class="text-muted leading-relaxed max-w-xl">
-      Saya seorang <em>Fullstack Developer</em> dan <em>Graphic Designer</em>. Di blog ini, saya membagikan catatan pribadi seputar <em>coding</em>, eksplorasi desain, dan tips-tips <em>frontend</em> yang saya pelajari sehari-hari. Singkat, padat, dan semoga bermanfaat buat kamu juga.
+      Saya seorang <em>Fullstack Developer</em> dan <em>Graphic Designer</em>.
+      Di blog ini, saya membagikan catatan pribadi seputar <em>coding</em>,
+      eksplorasi desain, dan tips-tips <em>frontend</em> yang saya pelajari sehari-hari.
+      Singkat, padat, dan semoga bermanfaat buat kamu juga.
     </p>
   </section>
 
@@ -41,7 +47,7 @@ const recentPosts = sortedPosts
     featuredPosts.length > 0 && (
       <section class="mb-12">
         <h2 class="text-xs uppercase tracking-wider text-muted mb-6 font-semibold font-mono">
-          Featured Writing
+          Tulisan Pilihan
         </h2>
         <div class="flex flex-col">
           {featuredPosts.map((post: any) => (
@@ -63,12 +69,12 @@ const recentPosts = sortedPosts
       <h2
         class="text-xs uppercase tracking-wider text-muted font-semibold font-mono"
       >
-        Recent Tips & Notes
+        Catatan & Tips Terbaru
       </h2>
       <a
         href="/blog"
         class="text-xs font-mono hover-text-accent transition-colors text-muted"
-        >View all &rarr;</a
+        >Lihat semua &rarr;</a
       >
     </div>
     <div class="flex flex-col">
