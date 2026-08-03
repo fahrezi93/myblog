@@ -1,0 +1,48 @@
+name: Auto Blog Generation with Gemini
+
+on:
+  schedule:
+    # Jadwal: Setiap hari Senin jam 08:00 WIB (01:00 UTC)
+    - cron: '0 1 * * 1'
+  workflow_dispatch: # Mengizinkan Anda menekan tombol "Run workflow" secara manual di GitHub
+
+jobs:
+  generate-post:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Diperlukan agar GitHub bot bisa melakukan git push
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          
+      - name: Install Dependencies
+        run: npm install
+        
+      - name: Generate AI Post via Gemini
+        run: node scripts/generate-post.js
+        env:
+          # Pastikan Anda telah menambahkan GEMINI_API_KEY di Settings > Secrets > Actions
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # Tambahkan semua file baru di dalam folder blog
+          git add src/content/blog/
+          
+          # Cek apakah ada file baru yang terbuat
+          if git diff --staged --quiet; then
+            echo "No new posts were generated."
+          else
+            git commit -m "feat: Auto-generate new blog post via Gemini AI"
+            git push
+          fi

@@ -23,7 +23,20 @@ const { title, description = "A minimalist personal blog for tips, tricks, and t
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="title" content={title} />
     <meta name="description" content={description} />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={Astro.url.href} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
     <script is:inline>
       const getThemePreference = () => {
         if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {
