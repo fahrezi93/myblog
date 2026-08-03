@@ -95,7 +95,7 @@ Halo, ini Fahrezi! Hari ini kita akan bahas...
 
     // Simpan artikel baru
     fs.writeFileSync(filePath, rawMarkdown, 'utf-8');
-    console.log(\`Successfully generated and saved new post: \${fileName}\`);
+    console.log(`Successfully generated and saved new post: ${fileName}`);
 
   } catch (error) {
     console.error('Failed to generate post:', error);

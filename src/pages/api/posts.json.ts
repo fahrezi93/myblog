@@ -2,17 +2,17 @@ import { getCollection } from "astro:content";
 
 export async function GET() {
   // Ambil semua post yang bukan draft
-  const posts = await getCollection("blog", ({ data }) => {
+  const posts = await getCollection("blog", ({ data }: { data: any }) => {
     return data.draft !== true;
   });
 
   // Urutkan dari yang terbaru
   const sortedPosts = posts.sort(
-    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+    (a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
   );
 
   // Ambil data yang penting saja (misal: 3 post terbaru) untuk ditampilkan di portofolio
-  const apiData = sortedPosts.slice(0, 3).map((post) => ({
+  const apiData = sortedPosts.slice(0, 3).map((post: any) => ({
     title: post.data.title,
     description: post.data.description,
     pubDate: post.data.pubDate,
