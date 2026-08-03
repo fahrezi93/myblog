@@ -1,0 +1,36 @@
+---
+title: "Tailwind CSS v4: Oxide Engine dan Kecepatan Luar Biasa"
+description: "Tailwind v4 ditulis ulang dengan Rust menggunakan Oxide Engine. Membawa performa kompilasi instan dan konfigurasi langsung di CSS."
+pubDate: "2026-07-28"
+tags: ["css", "tailwind", "performance"]
+featured: true
+draft: false
+---
+
+Tailwind CSS v4 bukanlah sekadar pembaruan kecil; ini adalah perombakan total dari arsitektur *framework* yang kita kenal dan cintai. Perubahan terbesar terletak pada mesin barunya: **Oxide**.
+
+## Ditulis Ulang dengan Rust
+
+Oxide adalah *engine* baru Tailwind yang dibangun dari nol menggunakan bahasa pemrograman **Rust**. Perubahan ini memberikan lonjakan performa yang sangat masif. Proses *build* penuh sekarang bisa 5x lebih cepat, dan *incremental build* (saat Anda sedang *coding*) bisa 100x lebih cepat—bahkan sering kali diukur dalam skala mikrodetik!
+
+Selain itu, Oxide terintegrasi langsung dengan **Lightning CSS**, sehingga Anda tidak lagi membutuhkan *tool* terpisah seperti PostCSS atau Autoprefixer untuk kebanyakan proyek.
+
+## CSS-First Configuration
+
+Selamat tinggal `tailwind.config.js`! Di Tailwind v4, seluruh konfigurasi kini dilakukan secara *native* di dalam file CSS Anda menggunakan direktif `@theme`.
+
+```css
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #2563eb;
+  --font-sans: "Inter", sans-serif;
+  
+  /* Breakpoint juga menggunakan native CSS variables */
+  --breakpoint-3xl: 1920px;
+}
+```
+
+Pendekatan ini membuat desain *tokens* (warna, font, *breakpoint*) Anda otomatis terekspos sebagai CSS Variables yang sah (`var(--color-primary)`), yang dapat Anda gunakan di mana saja, bahkan di luar Tailwind *classes*. 
+
+Dengan fitur modern seperti dukungan bawaan untuk *Container Queries* dan palet warna P3, Tailwind v4 membuktikan bahwa mereka terus berinovasi di garis depan CSS modern.

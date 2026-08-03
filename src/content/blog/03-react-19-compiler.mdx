@@ -1,0 +1,34 @@
+---
+title: "Mengenal React 19 dan React Compiler"
+description: "React 19 membawa perubahan besar dengan React Compiler yang secara otomatis melakukan memoization. Selamat tinggal useMemo dan useCallback!"
+pubDate: "2026-08-01"
+tags: ["react", "frontend", "javascript"]
+featured: true
+draft: false
+---
+
+React 19 telah resmi dirilis dan membawa paradigma baru dalam pengembangan aplikasi frontend. Fokus utama dari rilis ini adalah menyederhanakan *developer experience* dan mengurangi kode boilerplate yang sebelumnya wajib ditulis.
+
+## Selamat Tinggal `useMemo` dan `useCallback`
+
+Sebelum React 19, kita harus secara manual membungkus fungsi dan *value* yang berat menggunakan `useMemo` dan `useCallback` untuk mencegah *re-render* yang tidak perlu. Ini sering kali membuat kode menjadi kotor dan sulit dibaca.
+
+Kini, dengan hadirnya **React Compiler** (yang dijalankan di tahap *build* menggunakan Babel plugin), React dapat menganalisis kode Anda dan menerapkan optimasi *memoization* secara otomatis di bawah kap. Compiler ini cukup pintar untuk mengetahui kapan sebuah nilai berubah dan kapan komponen perlu di-*render* ulang.
+
+## Actions untuk Data Fetching
+
+React 19 juga memperkenalkan **Actions**. Ini adalah cara baru untuk menangani mutasi data dan pembaruan asinkron. Actions secara otomatis mengelola status *pending*, *error*, dan *optimistic updates*. Anda tidak perlu lagi membuat `useState` manual hanya untuk melacak apakah sebuah *form* sedang di-*submit* atau tidak.
+
+```jsx
+// Contoh penggunaan Actions di React 19
+const [error, submitAction, isPending] = useActionState(
+  async (previousState, formData) => {
+    const error = await updateName(formData.get("name"));
+    if (error) return error;
+    return null;
+  },
+  null,
+);
+```
+
+Dengan fitur-fitur baru seperti *Server Components* (RSC) yang sudah stabil, referensi langsung via *prop* `ref` (tanpa `forwardRef`), dan dukungan *native* untuk tag `<title>` serta `<meta>`, React 19 memastikan posisinya sebagai *library* frontend paling dominan di tahun 2026.

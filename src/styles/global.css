@@ -1,0 +1,68 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply bg-[#FBFBFB] text-[#111111] antialiased min-h-screen selection:bg-blue-200 selection:text-blue-900;
+  }
+  
+  html.dark body {
+    @apply bg-[#09090B] text-[#FAFAFA] selection:bg-blue-900/50 selection:text-blue-100;
+  }
+}
+
+@layer components {
+  .text-muted {
+    @apply text-[#71717A] dark:text-[#A1A1AA];
+  }
+  .border-subtle {
+    @apply border-[#E4E4E7] dark:border-[#27272A];
+  }
+  .bg-card {
+    @apply bg-[#FFFFFF] dark:bg-[#121215];
+  }
+  .text-accent {
+    @apply text-[#2563EB] dark:text-[#60A5FA];
+  }
+  .hover-text-accent {
+    @apply hover:text-[#2563EB] dark:hover:text-[#60A5FA];
+  }
+}
+
+/* Prose customizations for MDX content */
+.prose pre {
+  @apply border border-[#E4E4E7] dark:border-[#27272A] rounded-lg !bg-zinc-50 dark:!bg-[#121215] text-sm;
+}
+
+.prose code {
+  @apply font-mono text-sm bg-zinc-100 dark:bg-zinc-800 px-1.5 py-0.5 rounded border border-[#E4E4E7] dark:border-[#27272A] font-normal;
+}
+
+.prose pre code {
+  @apply bg-transparent border-none p-0;
+}
+
+.prose a {
+  @apply text-[#2563EB] dark:text-[#60A5FA] hover:underline decoration-1 underline-offset-4;
+}
+
+.prose h2, .prose h3, .prose h4 {
+  @apply text-[#111111] dark:text-[#FAFAFA] font-medium mt-8 mb-4;
+}
+
+.prose p, .prose ul, .prose ol {
+  @apply text-[#111111] dark:text-[#A1A1AA] leading-relaxed mb-4;
+}
+
+.prose strong {
+  @apply text-[#111111] dark:text-[#FAFAFA] font-medium;
+}
+
+.prose blockquote {
+  @apply border-l-2 border-[#E4E4E7] dark:border-[#27272A] pl-4 italic text-[#71717A] dark:text-[#A1A1AA];
+}

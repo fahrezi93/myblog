@@ -1,0 +1,47 @@
+---
+title: "Zod + TypeScript: Type Safety End-to-End"
+description: "Bagaimana Zod menyelamatkan aplikasi Anda dari runtime errors dengan melakukan validasi skema yang ketat."
+pubDate: "2026-06-15"
+tags: ["typescript", "javascript", "architecture"]
+featured: true
+draft: false
+---
+
+TypeScript adalah bahasa yang luar biasa untuk menangkap *error* di tahap penulisan kode (*compile-time*). Namun, TypeScript memiliki satu kelemahan besar: tipe datanya menghilang saat kode dikompilasi menjadi JavaScript, sehingga tidak ada perlindungan di tahap eksekusi (*runtime*).
+
+Di sinilah **Zod** bersinar.
+
+## Masalah dengan API Data
+Bayangkan Anda melakukan `fetch` data dari API eksternal. Anda memberi tahu TypeScript bahwa data tersebut bertipe `User`.
+
+```typescript
+type User = { id: number; name: string };
+const response = await fetch('/api/user');
+const user = await response.json() as User; // BERBAHAYA!
+```
+
+Jika struktur dari API berubah (misalnya `id` menjadi string), TypeScript tidak akan tahu. Aplikasi Anda akan meledak saat dijalankan di browser pengguna. Pemaksaan tipe (`as User`) adalah sebuah kebohongan kepada *compiler*.
+
+## Solusi: Zod Schema Validation
+
+Zod adalah pustaka deklarasi dan validasi skema yang mengutamakan TypeScript. Anda mendefinisikan skema *runtime*, dan Zod secara otomatis menyimpulkan (infer) tipe TypeScript statisnya!
+
+```typescript
+import { z } from 'zod';
+
+// 1. Buat skema runtime
+const UserSchema = z.object({
+  id: z.number(),
+  name: z.string().min(3),
+  email: z.string().email(),
+});
+
+// 2. Ekstrak tipe statis otomatis (Type Inference)
+type User = z.infer<typeof UserSchema>;
+
+// 3. Parsing data dengan aman
+const rawData = await response.json();
+const safeUser = UserSchema.parse(rawData); // Akan throw error jika data tidak valid
+```
+
+Dengan Zod, Anda mendapatkan batas yang sangat kuat (*boundary*) antara dunia luar (API, Form Input, URL params) dengan logika internal aplikasi Anda. Teknik *End-to-End Type Safety* menggunakan tRPC, Prisma, dan Zod telah menjadi standar emas bagi *full-stack* TypeScript developer.

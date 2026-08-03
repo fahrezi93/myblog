@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const tags = [...new Set(posts.map((post: any) => post.data.tags).flat())].sort();
+---
+
+<BaseLayout title="Tags | fahreziblog">
+  <h1 class="text-3xl font-medium tracking-tight mb-8">Tags</h1>
+  
+  <div class="flex flex-wrap gap-3">
+    {tags.map((tag: any) => (
+      <a 
+        href={`/tags/${tag}`}
+        class="px-3 py-1.5 rounded-md bg-zinc-100 dark:bg-zinc-800 border-subtle border hover-text-accent transition-colors font-mono text-sm text-muted"
+      >
+        #{tag}
+        <span class="ml-2 text-xs opacity-60">
+          {posts.filter(p => p.data.tags.includes(tag)).length}
+        </span>
+      </a>
+    ))}
+  </div>
+</BaseLayout>

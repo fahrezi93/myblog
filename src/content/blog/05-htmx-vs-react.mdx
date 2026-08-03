@@ -1,0 +1,32 @@
+---
+title: "HTMX vs React: Kapan Harus Menggunakan Apa?"
+description: "HTMX membawa kembali konsep server-side rendering dengan interaktivitas instan tanpa harus mengirimkan ratusan KB JavaScript ke klien."
+pubDate: "2026-07-20"
+tags: ["htmx", "react", "architecture"]
+featured: false
+draft: false
+---
+
+Dalam beberapa tahun terakhir, kita melihat sebuah kebangkitan kembali arsitektur server-driven, dan **HTMX** adalah salah satu pemain utamanya. Banyak tim *developer* yang mulai beralih dari React ke HTMX, tetapi apakah HTMX bisa sepenuhnya menggantikan React?
+
+## Pendekatan HTMX
+
+HTMX berukuran sangat kecil (sekitar 14KB) dibandingkan bundel React yang bisa memakan ratusan kilobyte. Konsep utamanya adalah mengizinkan Anda mengakses AJAX, CSS Transitions, WebSockets, dan Server Sent Events langsung dari atribut HTML.
+
+```html
+<!-- Contoh HTMX murni -->
+<button hx-post="/clicked" hx-swap="outerHTML">
+  Klik Saya
+</button>
+```
+
+Anda tidak perlu memusingkan *state management* yang rumit seperti Redux atau Zustand, karena "state" Anda ada di *database* server, dan UI Anda hanyalah representasi HTML statis dari *state* tersebut. Ini sangat ideal untuk aplikasi *dashboard*, panel admin, dan situs yang berat pada operasi CRUD (Create, Read, Update, Delete).
+
+## Kapan Harus Bertahan dengan React?
+
+Meski HTMX luar biasa untuk simplifikasi, React masih menang telak di beberapa area:
+1. **Interaktivitas Ekstrem:** Aplikasi seperti Figma, editor video web, atau Google Docs yang membutuhkan kalkulasi state klien yang sangat kompleks dan *drag-and-drop*.
+2. **Offline-First:** Aplikasi yang harus berfungsi sempurna meski koneksi internet terputus (menggunakan IndexedDB).
+3. **Ekosistem Mobile:** React memiliki React Native, sementara HTMX hanya berjalan di web browser.
+
+Tren di tahun 2026 adalah arsitektur **Hybrid**: Menggunakan HTMX untuk 90% aplikasi (form, tabel, navigasi) dan menyematkan React atau Alpine.js secara spesifik hanya untuk komponen kecil yang butuh interaktivitas tinggi (seperti *rich text editor* atau grafik interaktif).

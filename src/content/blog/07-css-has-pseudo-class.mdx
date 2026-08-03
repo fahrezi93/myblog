@@ -1,0 +1,58 @@
+---
+title: "Sihir CSS Modern dengan :has() Pseudo-Class"
+description: "Selector :has() disebut-sebut sebagai 'Parent Selector' yang selama puluhan tahun dinantikan oleh para developer CSS."
+pubDate: "2026-07-10"
+tags: ["css", "frontend", "design"]
+featured: false
+draft: false
+---
+
+Pernahkah Anda ingin mengubah gaya elemen induk (`parent`) hanya jika ia memiliki elemen anak (`child`) tertentu di dalamnya? Selama puluhan tahun, satu-satunya cara melakukan ini adalah dengan menulis JavaScript.
+
+Kini, dengan CSS `:has()` pseudo-class (yang sudah didukung di semua browser modern), hal itu bisa dilakukan secara *native*.
+
+## 1. Conditional Layouts (Layout Bersyarat)
+
+Anda bisa mengubah tata letak sebuah komponen (seperti kartu atau baris) berdasarkan isinya. Misalnya, Anda ingin *container* memiliki *grid* 2 kolom hanya jika di dalamnya terdapat elemen gambar (`<img>`).
+
+```css
+.card {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Jika .card memiliki img, ubah layoutnya! */
+.card:has(img) {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 1.5rem;
+}
+```
+
+## 2. Validasi Form Tanpa JavaScript
+
+Anda bisa menyoroti (memberi *highlight*) seluruh `fieldset` atau grup form jika ada satu saja input di dalamnya yang tidak valid.
+
+```css
+.form-group:has(input:invalid) {
+  background-color: #fee2e2;
+  border-left: 4px solid #ef4444;
+}
+
+.form-group:has(input:invalid) label {
+  color: #b91c1c;
+}
+```
+
+## 3. Menargetkan Previous Sibling (Saudara Sebelumnya)
+
+CSS memiliki *selector* untuk elemen selanjutnya (`+` atau `~`), tapi tidak punya untuk sebelumnya. Dengan `:has()`, kita bisa mengakalinya!
+
+```css
+/* Berikan margin pada h1, HANYA jika elemen setelahnya adalah h2 */
+h1:has(+ h2) {
+  margin-bottom: 0.25rem;
+}
+```
+
+Kekuatan `:has()` sangat luas. Anda bahkan bisa menggabungkannya dengan `:not()` untuk logika kompleks (`.card:not(:has(img))`). Ini adalah fitur CSS terbaik dalam dekade ini yang akan mengurangi jumlah skrip JavaScript di aplikasi Anda.

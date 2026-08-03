@@ -1,0 +1,33 @@
+---
+import { Moon, Sun } from '@lucide/astro';
+---
+
+<header class="w-full max-w-3xl mx-auto px-6 py-4 border-b border-subtle flex items-center justify-between">
+  <a href="/" class="font-mono font-bold text-lg hover-text-accent transition-colors">
+    fahreziblog
+  </a>
+  <nav class="flex items-center gap-6 text-sm">
+    <a href="/blog" class="hover-text-accent transition-colors">Blog</a>
+    <a href="/tags" class="hover-text-accent transition-colors">Tags</a>
+    <a href="/about" class="hover-text-accent transition-colors">About</a>
+    
+    <button 
+      id="theme-toggle"
+      class="p-2 -mr-2 rounded-md hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors"
+      aria-label="Toggle theme"
+    >
+      <Sun class="w-4 h-4 hidden dark:block text-muted hover:text-[#FAFAFA]" />
+      <Moon class="w-4 h-4 block dark:hidden text-muted hover:text-[#111111]" />
+    </button>
+  </nav>
+</header>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  
+  toggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.classList.contains('dark');
+    document.documentElement.classList[isDark ? 'remove' : 'add']('dark');
+    localStorage.setItem('theme', isDark ? 'light' : 'dark');
+  });
+</script>

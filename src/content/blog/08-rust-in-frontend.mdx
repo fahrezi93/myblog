@@ -1,0 +1,26 @@
+---
+title: "Mengapa Rust Menguasai Frontend Tooling?"
+description: "Dari SWC, Turbopack, hingga Rolldown. Bagaimana bahasa sistem Rust merevolusi kecepatan ekosistem JavaScript."
+pubDate: "2026-07-05"
+tags: ["rust", "tooling", "performance"]
+featured: false
+draft: false
+---
+
+Jika Anda memperhatikan ekosistem JavaScript dan TypeScript akhir-akhir ini, Anda pasti menyadari satu tren besar: semua *tool* penting sedang ditulis ulang menggunakan **Rust**. Tapi kenapa?
+
+## Keterbatasan Node.js
+Secara historis, *tools* seperti Webpack, Babel, dan ESLint ditulis dalam JavaScript dan berjalan di atas Node.js. Node.js luar biasa untuk membangun *web server*, tetapi memiliki beberapa kelemahan untuk tugas komputasi berat (*CPU-bound*) seperti mem-parsing ribuan file:
+1. **Single-threaded:** Meski bisa menggunakan *worker threads*, manajemen memori di JavaScript membuatnya sulit untuk paralelisme murni.
+2. **Garbage Collection (GC):** Saat memproses ribuan file, Node.js menghasilkan banyak *garbage* di memori. Jeda GC ini memperlambat proses *build*.
+
+## Masuklah Rust
+Rust adalah bahasa sistem (*systems programming language*) yang memberikan kecepatan setara C++ tetapi dengan garansi keamanan memori (*memory safety*) berkat fitur *ownership* dan *borrow checker*-nya.
+
+Beberapa *tools* revolusioner yang lahir dari tren ini:
+*   **SWC (Speedy Web Compiler):** Pionir yang menggantikan Babel. Mampu mengkompilasi TS/JS 20x lebih cepat.
+*   **Turbopack:** Dibuat oleh Vercel (pencipta Webpack), bundler ini dirancang sebagai standar baru untuk Next.js dengan arsitektur *incremental caching*.
+*   **Rolldown:** Bundler masa depan untuk Vite, yang kompatibel dengan API Rollup namun jauh lebih cepat.
+*   **Oxc (Oxidation Compiler):** Rangkaian *tool* super cepat yang menyediakan *parser*, linter (Oxlint), dan resolver.
+
+Di tahun 2026 ini, menggunakan *toolchain* berbasis Rust bukan lagi sebuah kemewahan, melainkan standar industri agar *developer* tidak membuang waktu menunggu proses *build* yang lambat.

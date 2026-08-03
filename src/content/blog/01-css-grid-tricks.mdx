@@ -1,0 +1,26 @@
+---
+title: "Trik CSS Grid yang Jarang Diketahui"
+description: "Meningkatkan layout website dengan beberapa properti CSS Grid yang sangat berguna tapi sering dilupakan oleh developer."
+pubDate: "2024-03-10"
+tags: ["css", "frontend", "layout"]
+featured: true
+draft: false
+---
+
+CSS Grid adalah alat yang sangat kuat untuk membangun tata letak di web. Meskipun banyak dari kita yang menggunakan `grid-template-columns` dan `gap`, ada beberapa trik lain yang bisa membuat hidup kita lebih mudah.
+
+## 1. Grid Template Areas
+
+Banyak orang melewatkan `grid-template-areas`. Ini memungkinkan Anda memvisualisasikan layout Anda langsung di CSS:
+
+```css
+.container {
+  display: grid;
+  grid-template-areas: 
+    "header header header"
+    "sidebar content content"
+    "footer footer footer";
+}
+```
+
+Sangat intuitif dan mudah dibaca!

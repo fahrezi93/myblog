@@ -1,0 +1,96 @@
+<div class="relative w-full mb-8">
+  <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-muted"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+  </div>
+  <input
+    type="text"
+    id="search-input"
+    class="block w-full pl-10 pr-3 py-2 border border-subtle rounded-md bg-transparent text-sm placeholder-muted focus:outline-none focus:border-[#111111] dark:focus:border-[#FAFAFA] transition-colors"
+    placeholder="Search articles..."
+  />
+</div>
+
+<div id="search-results" class="hidden flex-col gap-1 mb-8"></div>
+<div id="search-empty" class="hidden text-sm text-muted mb-8 py-4 text-center border border-dashed border-subtle rounded-lg">No articles found.</div>
+
+<script>
+  import Fuse from 'fuse.js';
+
+  const searchInput = document.getElementById('search-input') as HTMLInputElement;
+  const searchResults = document.getElementById('search-results');
+  const searchEmpty = document.getElementById('search-empty');
+  const defaultList = document.getElementById('default-post-list');
+
+  let fuse: any = null;
+
+  function initSearch() {
+    // @ts-ignore
+    if (!window.BLOG_POSTS) return;
+    
+    // @ts-ignore
+    fuse = new Fuse(window.BLOG_POSTS, {
+      keys: ['title', 'description', 'tags'],
+      threshold: 0.3,
+    });
+
+    searchInput?.addEventListener('input', (e) => {
+      const target = e.target as HTMLInputElement;
+      const query = target.value;
+
+      if (!query) {
+        if (searchResults) searchResults.classList.add('hidden');
+        if (searchEmpty) searchEmpty.classList.add('hidden');
+        if (defaultList) defaultList.classList.remove('hidden');
+        return;
+      }
+
+      const results = fuse.search(query);
+
+      if (defaultList) defaultList.classList.add('hidden');
+      
+      if (results.length === 0) {
+        if (searchResults) searchResults.classList.add('hidden');
+        if (searchEmpty) searchEmpty.classList.remove('hidden');
+      } else {
+        if (searchEmpty) searchEmpty.classList.add('hidden');
+        if (searchResults) {
+          searchResults.classList.remove('hidden');
+          searchResults.innerHTML = '';
+          
+          results.forEach((result: any) => {
+            const item = result.item;
+            const formattedDate = new Intl.DateTimeFormat('id-ID', {
+              day: '2-digit',
+              month: 'short',
+              year: 'numeric'
+            }).format(new Date(item.pubDate));
+            
+            const article = document.createElement('article');
+            article.className = "group relative py-5 border-b border-subtle hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors -mx-4 px-4 rounded-lg";
+            article.innerHTML = `
+              <div class="flex items-center justify-between gap-2 font-mono text-xs text-muted">
+                <time datetime="${item.pubDate}">${formattedDate}</time>
+                <div class="flex gap-1.5">
+                  ${item.tags.map((tag: string) => `<span class="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-muted border border-subtle">#${tag}</span>`).join('')}
+                </div>
+              </div>
+              <h3 class="mt-2 text-base font-medium text-[#111111] dark:text-[#FAFAFA] group-hover:text-[#2563EB] dark:group-hover:text-[#60A5FA] transition-colors">
+                <a href="/blog/${item.slug}">
+                  <span class="absolute inset-0"></span>
+                  ${item.title}
+                </a>
+              </h3>
+              <p class="mt-1.5 text-sm text-muted line-clamp-2 leading-relaxed">
+                ${item.description}
+              </p>
+            `;
+            searchResults.appendChild(article);
+          });
+        }
+      }
+    });
+  }
+
+  // Initialize after DOM is loaded
+  document.addEventListener('DOMContentLoaded', initSearch);
+</script>

@@ -1,0 +1,28 @@
+---
+title: "Mengapa Astro Sangat Cepat?"
+description: "Membahas Island Architecture pada Astro dan bagaimana ia mengirimkan nol JavaScript ke klien secara default."
+pubDate: "2024-03-15"
+tags: ["astro", "performance", "javascript"]
+featured: false
+draft: false
+---
+
+Astro telah merevolusi cara kita membangun situs web statis dan aplikasi web dengan **Island Architecture**. 
+
+## Pengiriman Nol JavaScript
+
+Secara default, Astro akan menghapus semua JavaScript klien dari hasil build Anda. Ini berarti pengguna Anda mengunduh halaman HTML murni yang super cepat.
+
+```astro
+---
+import InteractiveComponent from './InteractiveComponent.jsx';
+---
+
+<!-- Komponen ini akan dirender ke HTML statis, tanpa JS di browser! -->
+<InteractiveComponent />
+
+<!-- Tambahkan client:load agar JS dikirim ke klien -->
+<InteractiveComponent client:load />
+```
+
+Pendekatan ini menjamin performa terbaik untuk pengguna di perangkat apa pun.

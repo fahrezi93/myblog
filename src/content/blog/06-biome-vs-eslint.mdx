@@ -1,0 +1,47 @@
+---
+title: "BiomeJS: Pengganti Prettier dan ESLint?"
+description: "Toolchain super cepat berbasis Rust yang menggabungkan fitur formatting dan linting dalam satu eksekusi tunggal."
+pubDate: "2026-07-15"
+tags: ["tools", "biome", "javascript"]
+featured: false
+draft: false
+---
+
+Selama bertahun-tahun, standar industri untuk *formatting* dan *linting* kode JavaScript/TypeScript adalah kombinasi antara **Prettier** dan **ESLint**. Namun, mengatur konfigurasi keduanya agar tidak bentrok selalu menjadi mimpi buruk bagi developer.
+
+Masuklah **BiomeJS**, sebuah *toolchain* modern yang menggantikan keduanya sekaligus.
+
+## Kenapa Biome Begitu Cepat?
+
+Seperti halnya banyak *tool* modern lainnya (seperti Vite, Turbopack, dan Tailwind v4), Biome dibangun menggunakan **Rust**. Ini memberikan kecepatan eksekusi yang luar biasa—sekitar **10 hingga 25 kali lebih cepat** daripada Prettier dan ESLint yang berjalan di atas Node.js. 
+
+Bagi proyek skala besar, memformat kode yang biasanya memakan waktu beberapa detik kini terjadi dalam hitungan milidetik. Saat Anda menekan `Ctrl+S` untuk menyimpan file, *formatting* terasa instan tanpa ada *lag*.
+
+## Zero Config Philosophy
+
+Biome dirancang untuk siap digunakan (*out of the box*). Alih-alih memiliki belasan file konfigurasi dan *plugin*, Anda hanya butuh satu file `biome.json`.
+
+```json
+{
+  "$schema": "https://biomejs.dev/schemas/1.8.3/schema.json",
+  "formatter": {
+    "enabled": true,
+    "formatWithErrors": false,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 100
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true
+    }
+  }
+}
+```
+
+## Haruskah Pindah dari ESLint?
+
+Biome sangat direkomendasikan untuk proyek baru. Namun, jika *codebase* lama Anda sangat bergantung pada puluhan *custom plugin* ESLint yang spesifik, migrasi mungkin agak sulit karena Biome saat ini belum mendukung *third-party plugins* secara luas demi menjaga performa eksekusinya. 
+
+Meski begitu, alat migrasi bawaan `biome migrate eslint` dapat menerjemahkan sebagian besar *rules* dasar Anda ke Biome secara otomatis.

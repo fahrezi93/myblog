@@ -1,0 +1,40 @@
+<script>
+  const codeBlocks = document.querySelectorAll('pre');
+  
+  codeBlocks.forEach((block) => {
+    // Only add if not already added
+    if (block.querySelector('.copy-button')) return;
+
+    // Create wrapper to position button correctly
+    const wrapper = document.createElement('div');
+    wrapper.style.position = 'relative';
+    
+    // Insert wrapper before block, then move block inside
+    block.parentNode?.insertBefore(wrapper, block);
+    wrapper.appendChild(block);
+
+    const button = document.createElement('button');
+    button.className = 'copy-button absolute top-2 right-2 p-1.5 rounded-md bg-zinc-200/50 dark:bg-zinc-800/50 text-muted hover:text-[#111111] dark:hover:text-[#FAFAFA] transition-colors opacity-0 group-hover:opacity-100 backdrop-blur-sm border border-subtle';
+    button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+    button.setAttribute('aria-label', 'Copy code to clipboard');
+    
+    wrapper.classList.add('group');
+    wrapper.appendChild(button);
+
+    button.addEventListener('click', async () => {
+      const code = block.querySelector('code');
+      if (!code) return;
+      
+      try {
+        await navigator.clipboard.writeText(code.innerText);
+        // Visual feedback
+        button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-green-500"><polyline points="20 6 9 17 4 12"/></svg>`;
+        setTimeout(() => {
+          button.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>`;
+        }, 2000);
+      } catch (err) {
+        console.error('Failed to copy', err);
+      }
+    });
+  });
+</script>

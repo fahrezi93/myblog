@@ -1,0 +1,27 @@
+---
+title: "Panduan Core Web Vitals 2026"
+description: "LCP, INP, dan CLS. Memahami metrik performa vital dari Google untuk SEO dan User Experience."
+pubDate: "2026-06-25"
+tags: ["seo", "performance", "web"]
+featured: false
+draft: false
+---
+
+Google menganggap kecepatan dan kenyamanan *website* sebagai faktor penentu (ranking signal) di hasil pencarian. Metrik penentu ini disebut **Core Web Vitals**. Di tahun 2026, metrik ini semakin ketat dan terfokus pada 3 pilar utama:
+
+## 1. Largest Contentful Paint (LCP)
+LCP mengukur **Performa Pemuatan (Loading)**. Metrik ini mencatat berapa lama waktu yang dibutuhkan hingga elemen konten terbesar (biasanya gambar *hero* atau judul H1) selesai dirender di layar.
+*   **Target Ideal:** Di bawah 2.0 hingga 2.5 detik.
+*   **Cara Optimasi:** Gunakan gambar WebP/AVIF, pre-load gambar pahlawan (`<link rel="preload">`), dan minimalkan *render-blocking* JavaScript.
+
+## 2. Interaction to Next Paint (INP)
+INP (yang resmi menggantikan FID pada tahun 2024) mengukur **Responsivitas Kinerja**. INP memantau latensi *semua* interaksi pengguna di halaman (klik, ketuk, tekan tombol) dan seberapa cepat UI meresponsnya.
+*   **Target Ideal:** Di bawah 200 milidetik.
+*   **Cara Optimasi:** Hindari tugas JavaScript yang memblokir *main thread* (Long Tasks). Pecah tugas besar menggunakan `setTimeout` atau *Web Workers*, dan kurangi ukuran DOM.
+
+## 3. Cumulative Layout Shift (CLS)
+CLS mengukur **Stabilitas Visual**. Pernahkah Anda mau mengklik tombol, tapi tiba-tiba halamannya bergeser karena ada iklan atau gambar yang baru *loading*? Itulah CLS.
+*   **Target Ideal:** Kurang dari 0.1.
+*   **Cara Optimasi:** Selalu berikan atribut `width` dan `height` eksplisit pada `<img>` dan `<iframe>`. Jangan sisipkan konten baru di atas konten yang sudah ada secara dinamis.
+
+Fokuslah pada metrik **Field Data** (data dari pengguna asli di Chrome User Experience Report), bukan sekadar tes lab, karena data asli inilah yang menentukan nasib SEO situs Anda.

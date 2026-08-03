@@ -1,0 +1,41 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  slug: string;
+  tags: string[];
+  readingTime?: string;
+}
+
+const { title, description, pubDate, slug, tags } = Astro.props;
+const formattedDate = new Intl.DateTimeFormat('id-ID', {
+  day: '2-digit',
+  month: 'short',
+  year: 'numeric'
+}).format(pubDate);
+---
+
+<article class="group relative py-5 border-b border-subtle hover:bg-zinc-50/50 dark:hover:bg-zinc-900/30 transition-colors -mx-4 px-4 rounded-lg">
+  <div class="flex items-center justify-between gap-2 font-mono text-xs text-muted">
+    <time datetime={pubDate.toISOString()}>{formattedDate}</time>
+    <div class="flex gap-1.5">
+      {tags.map((tag: string) => (
+        <span class="px-1.5 py-0.5 rounded bg-zinc-100 dark:bg-zinc-800 text-muted border border-subtle">
+          #{tag}
+        </span>
+      ))}
+    </div>
+  </div>
+  
+  <h3 class="mt-2 text-base font-medium text-[#111111] dark:text-[#FAFAFA] group-hover:text-[#2563EB] dark:group-hover:text-[#60A5FA] transition-colors">
+    <a href={`/blog/${slug}`}>
+      <span class="absolute inset-0"></span>
+      {title}
+    </a>
+  </h3>
+  
+  <p class="mt-1.5 text-sm text-muted line-clamp-2 leading-relaxed">
+    {description}
+  </p>
+</article>

@@ -1,0 +1,42 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import BlogCard from '../../components/BlogCard.astro';
+import SearchBar from '../../components/SearchBar.astro';
+import { getCollection } from 'astro:content';
+
+const posts = await getCollection('blog', ({ data }) => {
+  return data.draft !== true;
+});
+const sortedPosts = posts.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// We need to inject a serialized version of posts for the client-side search to use
+const serializedPosts = sortedPosts.map(post => ({
+  title: post.data.title,
+  description: post.data.description,
+  pubDate: post.data.pubDate.toISOString(),
+  slug: post.slug,
+  tags: post.data.tags,
+}));
+---
+
+<BaseLayout title="Blog | fahreziblog">
+  <h1 class="text-3xl font-medium tracking-tight mb-6">All Posts</h1>
+  
+  <SearchBar />
+  
+  <div id="default-post-list" class="flex flex-col">
+    {sortedPosts.map((post: any) => (
+      <BlogCard
+        title={post.data.title}
+        description={post.data.description}
+        pubDate={post.data.pubDate}
+        slug={post.slug}
+        tags={post.data.tags}
+      />
+    ))}
+  </div>
+
+  <script is:inline define:vars={{ posts: serializedPosts }}>
+    window.BLOG_POSTS = posts;
+  </script>
+</BaseLayout>

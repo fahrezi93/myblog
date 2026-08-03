@@ -1,0 +1,30 @@
+---
+title: "Mengapa Banyak Developer Beralih ke Neovim?"
+description: "VS Code adalah raja editor, tapi kenapa belakangan ini pergerakan hijrah ke Neovim semakin masif?"
+pubDate: "2026-06-05"
+tags: ["tools", "neovim", "productivity"]
+featured: false
+draft: false
+---
+
+VS Code (Visual Studio Code) adalah *code editor* paling populer di dunia. Lengkap, mudah digunakan, dan didukung oleh Microsoft. Namun, ada tren yang tak terbantahkan di kalangan *senior developer*: pergerakan eksodus ke **Neovim**.
+
+Mengapa orang mau belajar *keybindings* yang aneh dan menghabiskan waktu mengatur konfigurasi demi editor berbasis terminal?
+
+## 1. Mouse is a Bottleneck
+Alasan paling filosofis dari pengguna Vim/Neovim adalah: memindahkan tangan dari *keyboard* ke *mouse* (atau *trackpad*) akan merusak momentum berpikir dan memperlambat *coding*. 
+
+Dengan *modal editing* (Normal, Insert, Visual mode), Anda dapat mengedit, melompat antar baris, menghapus kata dalam tanda kurung (`di(`), dan memblok teks hanya dalam pecahan detik tanpa memindahkan jari dari *home row*.
+
+## 2. Kecepatan dan Efisiensi RAM
+VS Code dibangun di atas Electron (browser Chromium). Editor ini memakan memori RAM yang cukup besar, terutama jika Anda memasang puluhan ekstensi. 
+
+Sebaliknya, Neovim adalah program berbasis terminal C/Lua yang super ringan. Membuka Neovim memakan waktu sepersekian detik dan menggunakan resource CPU/RAM nyaris 0 saat diam. 
+
+## 3. Ekosistem Lua yang Modern
+Berbeda dengan Vim klasik yang menggunakan Vimscript, konfigurasi Neovim menggunakan bahasa **Lua**. Ini memicu ledakan jumlah *plugin* modern yang sangat cepat. Anda kini bisa mendapatkan fitur setara VS Code di dalam Neovim:
+*   **LSP (Language Server Protocol):** Autocomplete cerdas, navigasi kode, dan error checking.
+*   **Treesitter:** Highlighting sintaks berbasis struktur AST, bukan sekadar regex.
+*   **Telescope:** Fuzzy finder super cepat untuk mencari file atau teks.
+
+Menyiapkan Neovim memang tidak mudah, tetapi distro siap pakai seperti **LazyVim**, **AstroNvim**, dan **NvChad** telah mempermudah kurva pembelajarannya secara drastis.

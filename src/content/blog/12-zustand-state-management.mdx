@@ -1,0 +1,41 @@
+---
+title: "Zustand vs Redux: State Management React Modern"
+description: "Mengapa banyak proyek baru meninggalkan Redux dan memilih Zustand untuk global state management."
+pubDate: "2026-05-20"
+tags: ["react", "javascript", "state"]
+featured: false
+draft: false
+---
+
+Selama bertahun-tahun, **Redux** (dan kemudian Redux Toolkit) adalah raja absolut untuk *global state management* di aplikasi React. Jika Anda membuat aplikasi berskala besar, Anda pasti diwajibkan memakai Redux.
+
+Namun, dominasi tersebut telah digeser oleh sebuah pustaka kecil bergambar beruang: **Zustand**.
+
+## Kelelahan Redux (Redux Fatigue)
+Meski Redux Toolkit (RTK) sudah jauh menyederhanakan *boilerplate* Redux klasik, ia tetap memiliki kurva pembelajaran yang curam. Anda harus memahami *slices*, *reducers*, *actions*, *dispatch*, `<Provider>`, dan *selectors*. Bagi banyak *developer*, ini terasa terlalu berlebihan (over-engineered) untuk kebutuhan aplikasi yang sebenarnya sederhana.
+
+Apalagi dengan hadirnya *server-state tools* seperti TanStack Query (React Query) dan SWR, sebagian besar data yang dulunya disimpan di Redux kini ditangani secara langsung oleh *cache library* tersebut.
+
+## Pendekatan Minimalis Zustand
+Zustand membuang semua konsep yang rumit. Tidak ada `<Provider>` yang membungkus aplikasi Anda. Tidak ada *reducers* atau *action types* yang berbelit-belit. Hanya sebuah *store* berbasis *hooks*.
+
+```javascript
+import { create } from 'zustand'
+
+// Membuat store
+const useStore = create((set) => ({
+  bears: 0,
+  increasePopulation: () => set((state) => ({ bears: state.bears + 1 })),
+  removeAllBears: () => set({ bears: 0 }),
+}))
+
+// Memanggilnya di dalam komponen manapun!
+function BearCounter() {
+  const bears = useStore((state) => state.bears)
+  return <h1>{bears} around here ...</h1>
+}
+```
+
+Zustand dibangun untuk menargetkan masalah utama dari React *Context* klasik: **Re-rendering yang tidak perlu**. Dengan Zustand, Anda bisa men-langgan (subscribe) komponen hanya pada satu nilai tertentu di dalam *store*. Jika nilai lain berubah, komponen Anda tidak akan ter-render ulang.
+
+Di tahun 2026, untuk *client-state* yang murni UI (seperti tema gelap, sidebar terbuka, data user yang login), Zustand adalah pilihan paling *pragmatis* dan performan yang disukai hampir seluruh komunitas React.
