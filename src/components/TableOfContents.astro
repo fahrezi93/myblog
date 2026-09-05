@@ -8,19 +8,33 @@ const filteredHeadings = headings.filter((h) => h.depth <= 3);
 ---
 
 {filteredHeadings.length > 0 && (
-  <nav class="font-mono text-sm">
-    <h2 class="text-xs uppercase tracking-wider text-muted mb-4 font-semibold">Di halaman ini</h2>
-    <ul class="space-y-2.5">
-      {filteredHeadings.map((heading) => (
-        <li class={`${heading.depth === 3 ? 'ml-4' : ''}`}>
-          <a 
-            href={`#${heading.slug}`} 
-            class="text-muted hover:text-[#111111] dark:hover:text-[#FAFAFA] transition-colors line-clamp-2"
-          >
-            {heading.text}
-          </a>
-        </li>
-      ))}
+  <nav class="text-sm">
+    <div class="flex items-center gap-2 mb-3 pb-2 border-b border-subtle">
+      <span class="w-1.5 h-1.5 rounded-full bg-blue-600 dark:bg-blue-400"></span>
+      <h2 class="text-xs uppercase tracking-wider text-muted font-mono font-semibold">
+        Di Halaman Ini
+      </h2>
+    </div>
+
+    <ul class="space-y-1 border-l border-subtle/80 pl-3">
+      {filteredHeadings.map((heading) => {
+        const isH2 = heading.depth === 2;
+        return (
+          <li class={isH2 ? 'pt-1.5' : 'pl-3'}>
+            <a 
+              href={`#${heading.slug}`} 
+              class={`block transition-colors leading-relaxed py-0.5 ${
+                isH2 
+                  ? 'text-xs font-medium text-[#222222] dark:text-[#E4E4E7] hover-text-accent' 
+                  : 'text-[11px] text-muted hover-text-accent'
+              }`}
+              title={heading.text}
+            >
+              {heading.text}
+            </a>
+          </li>
+        );
+      })}
     </ul>
   </nav>
 )}

@@ -40,13 +40,13 @@ const formattedDate = new Intl.DateTimeFormat('id-ID', {
     </div>
   </div>
 
-  <div class="flex flex-col lg:flex-row gap-10 relative">
+  <div class="flex flex-col lg:flex-row gap-12 xl:gap-16 items-start relative">
     <article class="prose max-w-none flex-grow min-w-0">
       <slot />
     </article>
     
-    <aside class="hidden lg:block w-48 shrink-0">
-      <div class="sticky top-24">
+    <aside class="hidden lg:block w-64 xl:w-72 shrink-0">
+      <div class="sticky top-24 max-h-[calc(100vh-7rem)] overflow-y-auto pr-2">
         <TableOfContents headings={headings} />
       </div>
     </aside>

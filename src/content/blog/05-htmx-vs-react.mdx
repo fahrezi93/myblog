@@ -1,32 +1,76 @@
 ---
-title: "HTMX vs React: Kapan Harus Menggunakan Apa?"
-description: "HTMX membawa kembali konsep server-side rendering dengan interaktivitas instan tanpa harus mengirimkan ratusan KB JavaScript ke klien."
+title: "HTMX vs React: Ayunan Bandul Arsitektur Web dan Kapan Harus Memilih Apa"
+description: "Analisis komprehensif perdebatan arsitektur web modern: mengapa pendekatan Hypermedia-Driven via HTMX bangkit kembali melawan dominasi Single Page Application React."
 pubDate: "2026-07-20"
-tags: ["htmx", "react", "architecture"]
+tags: ["htmx", "react", "architecture", "web", "frontend"]
 featured: false
 draft: false
 ---
 
-Dalam beberapa tahun terakhir, kita melihat sebuah kebangkitan kembali arsitektur server-driven, dan **HTMX** adalah salah satu pemain utamanya. Banyak tim *developer* yang mulai beralih dari React ke HTMX, tetapi apakah HTMX bisa sepenuhnya menggantikan React?
+Dalam sejarah rekayasa perangkat lunak, perkembangan teknologi sering kali bergerak seperti **ayunan bandul (*pendulum swing*)**.
 
-## Pendekatan HTMX
+Pada era 2000-an, web didominasi oleh arsitektur berbasis server murni (PHP, Ruby on Rails, Django) di mana setiap klik memicu refresh halaman penuh. Kemudian, bandul berayun ke titik ekstrem sebaliknya: era **Single Page Application (SPA)** yang dipimpin oleh React, Vue, dan Angular, di mana browser klien memegang kendali penuh atas rendering dan state, sementara server hanya menjadi pipa pengirim data JSON mentah.
 
-HTMX berukuran sangat kecil (sekitar 14KB) dibandingkan bundel React yang bisa memakan ratusan kilobyte. Konsep utamanya adalah mengizinkan Anda mengakses AJAX, CSS Transitions, WebSockets, dan Server Sent Events langsung dari atribut HTML.
+Namun, beberapa tahun belakangan, banyak tim developer mulai menyadari bahwa arsitektur SPA membawa kompleksitas yang sangat mahal: bundle JavaScript yang membengkak, penanganan state ganda (sinkronisasi state database dengan state klien), dan kebutuhan infrastruktur build yang melelahkan.
+
+Dari kegelisahan inilah lahir kebangkitan gerakan baru yang dipelopori oleh **HTMX**: sebuah konsep yang dikenal sebagai **Hypermedia-Driven Architecture (HDA)**.
+
+---
+
+## Filosofi Inti: Mengapa Mengirim JSON Jika yang Kita Butuhkan Adalah HTML?
+
+Pertanyaan paling fundamental yang diajukan oleh kreator HTMX adalah: *mengapa kita harus mengambil data JSON dari server, lalu menggunakan ribuan baris kode JavaScript di browser hanya untuk merangkai JSON tersebut menjadi elemen `<p>` atau `<tr>`? Mengapa server tidak langsung mengirimkan potongan HTML tersebut?*
+
+HTMX berukuran sangat mungil—hanya sekitar **14 Kilobyte** (dibandingkan runtime React + ReactDOM yang bisa mencapai ratusan kilobyte sebelum kode aplikasi Anda dimasukkan). 
+
+Alih-alih menulis event listener dan fungsi fetch manual, HTMX memperluas kapabilitas HTML dengan atribut deklaratif sederhana:
 
 ```html
-<!-- Contoh HTMX murni -->
-<button hx-post="/clicked" hx-swap="outerHTML">
-  Klik Saya
+<!-- Tombol pembaruan status interaktif tanpa sebaris pun kode JS -->
+<button 
+  hx-post="/api/todo/1/toggle" 
+  hx-target="#todo-item-1" 
+  hx-swap="outerHTML"
+>
+  Selesai
 </button>
 ```
 
-Anda tidak perlu memusingkan *state management* yang rumit seperti Redux atau Zustand, karena "state" Anda ada di *database* server, dan UI Anda hanyalah representasi HTML statis dari *state* tersebut. Ini sangat ideal untuk aplikasi *dashboard*, panel admin, dan situs yang berat pada operasi CRUD (Create, Read, Update, Delete).
+Ketika tombol di atas diklik:
+1. Browser mengirimkan request POST ke server via AJAX otomatis.
+2. Server memproses logika bisnis di database dan merespons dengan potongan HTML baru.
+3. HTMX langsung menukar elemen target dengan HTML baru tersebut secara mulus tanpa reload halaman.
 
-## Kapan Harus Bertahan dengan React?
+Tidak ada *state management library*, tidak ada *reducer*, tidak ada *hydration*. Sumber kebenaran tunggal (*single source of truth*) tetap berada aman di database server Anda.
 
-Meski HTMX luar biasa untuk simplifikasi, React masih menang telak di beberapa area:
-1. **Interaktivitas Ekstrem:** Aplikasi seperti Figma, editor video web, atau Google Docs yang membutuhkan kalkulasi state klien yang sangat kompleks dan *drag-and-drop*.
-2. **Offline-First:** Aplikasi yang harus berfungsi sempurna meski koneksi internet terputus (menggunakan IndexedDB).
-3. **Ekosistem Mobile:** React memiliki React Native, sementara HTMX hanya berjalan di web browser.
+---
 
-Tren di tahun 2026 adalah arsitektur **Hybrid**: Menggunakan HTMX untuk 90% aplikasi (form, tabel, navigasi) dan menyematkan React atau Alpine.js secara spesifik hanya untuk komponen kecil yang butuh interaktivitas tinggi (seperti *rich text editor* atau grafik interaktif).
+## Kapan HTMX Menang Telak?
+
+Pendekatan HTMX memberikan keuntungan kecepatan pengembangan (*development velocity*) yang luar biasa pada skenario:
+1. **Aplikasi CRUD & Panel Admin:** Lebih dari 80% aplikasi web di dunia pada dasarnya adalah sistem entri data, tabel filter, formulir, dan modal konfirmasi. Untuk kasus ini, HTMX memangkas waktu kerja hingga separuh karena Anda tidak perlu membuat REST API terpisah dan lapisan state klien.
+2. **Koneksi Internet Lemah:** Karena browser hanya menerima potongan teks HTML kecil tanpa harus mengeksekusi script JavaScript berat, aplikasi HTMX terasa sangat gesit di perangkat ponsel berspesifikasi rendah.
+3. **Penyatuan Stack Backend:** Developer backend (Go, Python, Elixir, Rust, PHP) bisa membangun antarmuka web modern yang responsif tanpa harus beralih menjadi ahli ekosistem JavaScript.
+
+---
+
+## Di Mana React Tetap Tak Tergantikan?
+
+Meskipun HTMX sangat memikat untuk simplifikasi, klaim bahwa *"HTMX akan membunuh React sepenuhnya"* adalah kesalahpahaman besar. React tetap memegang keunggulan mutlak pada ranah:
+
+1. **Aplikasi dengan Interaktivitas Sisi Klien yang Ekstrem:** Produk digital seperti Figma, Canva, Google Docs, editor audio/video berbasis web, atau dashboard trading real-time dengan charting 60 FPS membutuhkan manipulasi state lokal di memori browser yang tidak mungkin bolak-balik meminta HTML ke server.
+2. **Offline-First & PWA:** Aplikasi yang harus tetap berjalan mulus saat koneksi internet terputus total (memanfaatkan *Service Workers* dan database lokal IndexedDB).
+3. **Ekosistem Komponen Pihak Ketiga:** Kematangan ekosistem React (ribuan library UI seperti Radix, Shadcn UI, komponen kalender kompleks) masih jauh melampaui komponen HTML murni.
+
+---
+
+## Panduan Keputusan Arsitektur
+
+| Kriteria Kebutuhan | Pilih HTMX | Pilih React / SPA |
+| :--- | :--- | :--- |
+| **Beban Utama Aplikasi** | Pembacaan konten, tabel CRUD, form bisnis | Interaksi kanvas, drag-and-drop, real-time audio |
+| **Ukuran Bundle JS Klien** | Sangat kecil (~14 KB) | Besar (150 KB - 1 MB+) |
+| **Kompleksitas Toolchain** | Nol build step, HTML murni | Membutuhkan bundler, transpiler, TS config |
+| **Model Mental Tim** | Server-centric, logika terpusat di database | Client-centric, sinkronisasi state via API |
+
+Konsensus terbaik saat ini adalah **sikap pragmatis**: jangan ragu menggunakan HTMX untuk mayoritas halaman aplikasi bisnis Anda, dan sisipkan komponen React terisolasi hanya pada bagian-bagian antarmuka yang benar-benar menuntut interaktivitas lokal tingkat tinggi.

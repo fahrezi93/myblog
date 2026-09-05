@@ -36,7 +36,17 @@
 
 /* Prose customizations for MDX content */
 .prose pre {
-  @apply border border-[#E4E4E7] dark:border-[#27272A] rounded-lg !bg-zinc-50 dark:!bg-[#121215] text-sm;
+  @apply border border-[#E4E4E7] dark:border-[#27272A] rounded-lg text-sm p-4 overflow-x-auto;
+}
+
+/* Shiki Dual-Theme Dark Mode switch */
+html.dark .astro-code,
+html.dark .astro-code span {
+  color: var(--shiki-dark) !important;
+  background-color: var(--shiki-dark-bg) !important;
+  font-style: var(--shiki-dark-font-style) !important;
+  font-weight: var(--shiki-dark-font-weight) !important;
+  text-decoration: var(--shiki-dark-text-decoration) !important;
 }
 
 .prose code {
@@ -55,8 +65,41 @@
   @apply text-[#111111] dark:text-[#FAFAFA] font-medium mt-8 mb-4;
 }
 
-.prose p, .prose ul, .prose ol {
-  @apply text-[#111111] dark:text-[#A1A1AA] leading-relaxed mb-4;
+.prose p {
+  @apply text-[#111111] dark:text-[#A1A1AA] leading-relaxed mb-5 text-justify [text-justify:inter-word] hyphens-auto;
+}
+
+.prose ul {
+  @apply list-disc list-outside pl-5 mb-5 space-y-1.5 text-[#111111] dark:text-[#A1A1AA] leading-relaxed;
+}
+
+.prose ol {
+  @apply list-decimal list-outside pl-5 mb-5 space-y-1.5 text-[#111111] dark:text-[#A1A1AA] leading-relaxed;
+}
+
+/* Tables in Prose */
+.prose table {
+  @apply w-full text-sm text-left my-8 border-collapse border border-[#E4E4E7] dark:border-[#27272A] rounded-lg overflow-x-auto block md:table;
+}
+
+.prose thead {
+  @apply bg-zinc-100/90 dark:bg-zinc-800/80 border-b border-[#E4E4E7] dark:border-[#27272A];
+}
+
+.prose th {
+  @apply px-4 py-3 font-semibold text-[#111111] dark:text-[#FAFAFA] text-xs font-mono tracking-wider;
+}
+
+.prose td {
+  @apply px-4 py-3 border-b border-[#E4E4E7] dark:border-[#27272A] text-[#222222] dark:text-[#D4D4D8] align-top text-xs leading-relaxed;
+}
+
+.prose tr:last-child td {
+  @apply border-b-0;
+}
+
+.prose tr:hover td {
+  @apply bg-zinc-50/80 dark:bg-zinc-900/40 transition-colors;
 }
 
 .prose strong {

@@ -1,20 +1,25 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import BlogCard from '../../components/BlogCard.astro';
-import { getCollection } from 'astro:content';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }: { data: any }) => !data.draft);
-  const tags = [...new Set(posts.map((post: any) => post.data.tags).flat())];
+  const posts = await getCollection('blog', ({ data }: CollectionEntry<'blog'>) => !data.draft);
+  const tags = [...new Set(posts.flatMap((post) => post.data.tags))];
 
-  return tags.map((tag: any) => {
-    const filteredPosts = posts.filter((post: any) => post.data.tags.includes(tag))
-      .sort((a: any, b: any) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+  return tags.map((tag) => {
+    const filteredPosts = posts
+      .filter((post) => post.data.tags.includes(tag))
+      .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
     return {
       params: { tag },
       props: { posts: filteredPosts },
     };
   });
+}
+
+interface Props {
+  posts: CollectionEntry<'blog'>[];
 }
 
 const { tag } = Astro.params;
@@ -30,7 +35,7 @@ const { posts } = Astro.props;
   </div>
   
   <div class="flex flex-col">
-    {posts.map((post: any) => (
+    {posts.map((post) => (
       <BlogCard
         title={post.data.title}
         description={post.data.description}
