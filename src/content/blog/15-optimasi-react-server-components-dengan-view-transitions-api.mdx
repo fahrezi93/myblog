@@ -1,0 +1,31 @@
+---
+title: "Optimasi React Server Components dengan View Transitions API"
+description: "Meningkatkan pengalaman navigasi pada aplikasi berbasis RSC dengan View Transitions API."
+pubDate: "2026-09-07"
+tags: ["frontend", "react", "web-performance"]
+featured: true
+draft: false
+---
+
+Halo, saya Mohammad Fahrezi. Pekan ini, integrasi antara React Server Components (RSC) dan View Transitions API menjadi topik hangat bagi pengembang yang ingin mencapai *feel* aplikasi native di web. Dengan semakin stabilnya dukungan browser, kita kini bisa melakukan transisi DOM yang halus tanpa harus mengandalkan pustaka pihak ketiga yang berat.
+
+Kunci utamanya terletak pada penggunaan `document.startViewTransition` saat menangani navigasi state. Pada aplikasi berbasis RSC, kita bisa membungkus pembaruan state agar browser secara otomatis menangkap snapshot sebelum dan sesudah perubahan DOM, menciptakan animasi transisi yang mulus.
+
+Berikut adalah implementasi sederhana pada event handler navigasi:
+
+```javascript
+const navigate = (path) => {
+  if (!document.startViewTransition) {
+    router.push(path);
+    return;
+  }
+
+  document.startViewTransition(async () => {
+    await router.push(path);
+  });
+};
+```
+
+Pendekatan ini sangat efektif untuk mengurangi *layout shift* yang mengganggu saat fetch data baru di sisi server. Dengan menjaga transisi tetap sinkron dengan render cycle React, kita memberikan pengalaman pengguna yang lebih responsif tanpa mengorbankan performa *first contentful paint*.
+
+Bagi rekan-rekan pengembang, pastikan untuk selalu menggunakan properti `view-transition-name` pada elemen CSS agar browser dapat memetakan elemen yang tepat selama transisi. Teknik ini adalah standar baru dalam membangun antarmuka web yang modern dan profesional.
