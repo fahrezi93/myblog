@@ -1,0 +1,32 @@
+---
+title: "Optimasi View Transitions API pada Aplikasi SPA"
+description: "Memanfaatkan View Transitions API untuk transisi UI yang lebih mulus tanpa overhead library pihak ketiga."
+pubDate: "2026-09-14"
+tags: ["frontend", "web-performance", "ui-ux"]
+featured: true
+draft: false
+---
+
+Halo, ini Mohammad Fahrezi. Dalam pengembangan frontend modern, pengalaman pengguna (UX) sangat bergantung pada bagaimana kita menangani transisi antar state. Baru-baru ini, adopsi View Transitions API semakin matang di berbagai browser, memungkinkan kita mengganti DOM dengan animasi *native* yang jauh lebih efisien dibandingkan manipulasi CSS keyframes manual.
+
+Pendekatan ini sangat berguna untuk aplikasi SPA (Single Page Application) guna menghindari *layout shift* yang kasar. Dengan membungkus pembaruan DOM di dalam `document.startViewTransition`, browser secara otomatis membuat snapshot dari state lama dan baru, lalu melakukan transisi *cross-fade* secara mulus.
+
+Berikut adalah implementasi minimalis untuk memperbarui konten halaman secara dinamis:
+
+```javascript
+function updateDOM(newData) {
+  if (!document.startViewTransition) {
+    // Fallback untuk browser lama
+    renderContent(newData);
+    return;
+  }
+
+  document.startViewTransition(() => {
+    renderContent(newData);
+  });
+}
+```
+
+Secara teknis, penggunaan API ini mengurangi kompleksitas pada *state management* animasi. Kita tidak perlu lagi mengelola class CSS transisi yang panjang atau event listener `animationend`. Cukup definisikan `view-transition-name` pada elemen spesifik di CSS, dan browser akan menangani interpolasi elemen tersebut secara otomatis.
+
+Bagi rekan-rekan engineer, ini adalah waktu yang tepat untuk mulai melakukan *refactoring* pada modul navigasi aplikasi kalian. Fokuslah pada performa dengan meminimalisir *re-paint* yang tidak perlu, karena transisi yang halus kini sudah menjadi standar ekspektasi pengguna di tahun 2026.
