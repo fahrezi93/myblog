@@ -1,0 +1,27 @@
+---
+title: "Eksplorasi React Forget: Kompilasi Reaktif Otomatis"
+description: "Melihat bagaimana React Forget mengubah cara kita mengelola re-render tanpa useMemo atau useCallback."
+pubDate: "2026-09-21"
+tags: ["frontend", "react", "web-performance"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Belakangan ini, adopsi *React Compiler* (dulu dikenal sebagai React Forget) semakin matang di ekosistem frontend. Bagi kita yang terbiasa terjebak dalam *dependency hell* dengan `useMemo` atau `useCallback`, kompilator ini menawarkan perubahan paradigma yang signifikan dengan melakukan memoization secara otomatis pada level build-time.
+
+Secara teknis, kompilator ini menganalisis *Rules of React* dan secara otomatis menyisipkan logika memoization ke dalam AST (*Abstract Syntax Tree*) kode kita. Ini berarti kode yang sebelumnya memerlukan optimasi manual sekarang bisa berjalan lebih efisien tanpa boilerplate yang berlebihan.
+
+Contoh perbandingannya terlihat jelas pada bagaimana kompilator menangani referensi objek:
+
+```javascript
+// Sebelum React Compiler
+const memoizedValue = useMemo(() => computeExpensiveValue(a, b), [a, b]);
+
+// Sesudah React Compiler
+// Kita bisa menulis kode imperatif biasa, compiler yang menangani memoization
+const memoizedValue = computeExpensiveValue(a, b);
+```
+
+Implementasi ini tidak hanya mengurangi *human error* dalam manajemen dependensi, tetapi juga secara drastis menurunkan beban kognitif saat melakukan refactoring komponen yang kompleks. Bagi performa aplikasi, ini adalah langkah besar dalam memastikan *re-render* yang tidak perlu dapat dieliminasi secara konsisten oleh sistem, bukan oleh developer.
+
+Bagi rekan-rekan engineer yang sedang mengoptimalkan aplikasi skala besar, saya sangat menyarankan untuk mulai melakukan migrasi ke *React Compiler* pada proyek yang sudah menggunakan React 19+. Fokus kita kini bisa lebih dialokasikan pada arsitektur aplikasi daripada sekadar mengurus *memoization*.
