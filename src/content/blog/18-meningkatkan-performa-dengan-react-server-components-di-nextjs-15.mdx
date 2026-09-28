@@ -1,0 +1,35 @@
+---
+title: "Meningkatkan Performa dengan React Server Components di Next.js 15"
+description: "Eksplorasi penggunaan React Server Components untuk memangkas bundle size secara signifikan."
+pubDate: "2026-09-28"
+tags: ["frontend", "react", "nextjs", "performance"]
+featured: true
+draft: false
+---
+
+Halo, saya Mohammad Fahrezi. Belakangan ini, fokus utama dalam pengembangan frontend adalah efisiensi pengiriman kode ke sisi klien. Dengan stabilnya ekosistem Next.js 15, penggunaan React Server Components (RSC) kini menjadi standar industri untuk menekan *bundle size* dan mempercepat *First Contentful Paint* (FCP).
+
+RSC memungkinkan kita menjalankan logika berat di sisi server tanpa mengirimkan dependensi JavaScript ke browser. Hal ini sangat efektif untuk operasi seperti pengambilan data dari database atau pemrosesan data sensitif yang tidak memerlukan interaktivitas klien.
+
+Berikut adalah contoh implementasi sederhana komponen server yang mengambil data langsung tanpa perlu `useEffect`:
+
+```jsx
+// app/users/page.js
+async function getUsers() {
+  const res = await db.query('SELECT * FROM users');
+  return res;
+}
+
+export default async function UserPage() {
+  const users = await getUsers();
+  return (
+    <ul>
+      {users.map(user => <li key={user.id}>{user.name}</li>)}
+    </ul>
+  );
+}
+```
+
+Kunci dari performa yang optimal adalah memisahkan antara komponen server dan komponen klien (`'use client'`). Dengan membatasi penggunaan interaktivitas hanya pada komponen yang benar-benar membutuhkannya, kita dapat mengurangi beban *main thread* pada browser secara drastis.
+
+Pendekatan ini bukan sekadar tren, melainkan pergeseran arsitektural yang wajib dipahami oleh setiap developer modern. Tetap minimalis dalam menulis kode, dan selalu utamakan pengalaman pengguna.
