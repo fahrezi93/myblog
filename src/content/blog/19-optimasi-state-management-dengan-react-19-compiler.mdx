@@ -1,0 +1,26 @@
+---
+title: "Optimasi State Management dengan React 19 Compiler"
+description: "Membahas bagaimana React Compiler secara otomatis mengoptimalkan re-rendering tanpa useMemo dan useCallback."
+pubDate: "2026-10-05"
+tags: ["frontend", "react", "performance"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Dalam beberapa hari terakhir, adopsi React Compiler di ekosistem produksi menunjukkan peningkatan signifikan. Sebagai developer, kita sering terjebak dalam *boilerplate* optimasi manual menggunakan `useMemo` dan `useCallback` untuk menjaga performa aplikasi agar tetap responsif.
+
+Kini, React Compiler secara otomatis melakukan memoization pada level *hook* dan *component* berdasarkan analisis statis kode kita. Implementasi ini secara drastis mengurangi *unnecessary re-renders* tanpa perlu intervensi manual yang repetitif dari developer.
+
+Berikut adalah contoh perbandingan alur kerja yang kini sudah diotomatisasi oleh compiler:
+
+```javascript
+// Sebelum: Memerlukan useMemo manual
+const expensiveData = useMemo(() => compute(items), [items]);
+
+// Setelah: React Compiler menangani memoization secara otomatis
+const expensiveData = compute(items);
+```
+
+Secara teknis, compiler ini bekerja dengan menganalisis *dependency graph* selama proses build. Hasilnya adalah *bundle* yang lebih efisien dan *runtime* yang lebih stabil, terutama pada aplikasi dengan state yang kompleks. Bagi rekan-rekan yang sedang membangun aplikasi skala besar, transisi ke React 19 dengan compiler aktif adalah langkah krusial untuk menekan *technical debt* yang berkaitan dengan manajemen performa.
+
+Minimalisme dalam penulisan kode bukan lagi sekadar gaya, melainkan kebutuhan performa. Dengan alat bantu seperti ini, kita bisa lebih fokus pada arsitektur aplikasi daripada sekadar menangani *re-render* yang tidak perlu. Selamat bereksperimen dengan alur kerja baru ini.
