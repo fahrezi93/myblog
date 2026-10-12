@@ -1,0 +1,30 @@
+---
+title: "Optimasi Komponen dengan React Compiler"
+description: "Meningkatkan performa aplikasi React secara otomatis melalui React Compiler."
+pubDate: "2026-10-12"
+tags: ["frontend", "react", "performance"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Dalam ekosistem React terbaru, salah satu perkembangan paling signifikan adalah adopsi *React Compiler* yang kini mulai menjadi standar dalam optimasi performa. Alat ini secara otomatis melakukan memoization pada komponen dan hook, sehingga kita tidak perlu lagi bergantung secara manual pada `useMemo` atau `useCallback`.
+
+Secara teknis, compiler ini menganalisis kode kita untuk menentukan bagian mana yang perlu diperbarui berdasarkan perubahan *state*. Hal ini secara drastis mengurangi *re-render* yang tidak perlu tanpa harus mengubah logika bisnis yang sudah ada. Berikut adalah contoh bagaimana compiler bekerja di balik layar:
+
+```javascript
+// Sebelum: Perlu useMemo untuk mencegah re-render
+function List({ items }) {
+  const sorted = useMemo(() => items.sort(), [items]);
+  return <div>{sorted.join(', ')}</div>;
+}
+
+// Sesudah: React Compiler menangani memoization secara otomatis
+function List({ items }) {
+  const sorted = items.sort();
+  return <div>{sorted.join(', ')}</div>;
+}
+```
+
+Implementasi ini tidak hanya membuat kode lebih bersih (*clean code*), tetapi juga meningkatkan *runtime performance* pada aplikasi dengan kompleksitas tinggi. Bagi kita yang fokus pada *web performance*, ini adalah lompatan besar karena beban kognitif dalam mengelola *referential equality* di React menjadi jauh lebih ringan.
+
+Sebagai pengembang, transisi ke alat seperti ini sangat disarankan untuk menjaga skalabilitas aplikasi. Fokus kita kini bisa lebih dialihkan pada arsitektur sistem dan *user experience* dibandingkan harus terjebak dalam mikro-optimasi manual yang berulang.
