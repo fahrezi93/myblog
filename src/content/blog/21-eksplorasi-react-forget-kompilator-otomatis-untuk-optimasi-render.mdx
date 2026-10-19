@@ -1,0 +1,32 @@
+---
+title: "Eksplorasi React Forget: Kompilator Otomatis untuk Optimasi Render"
+description: "Melihat bagaimana React Forget mengubah cara kita menangani memoization di aplikasi React modern."
+pubDate: "2026-10-19"
+tags: ["frontend", "react", "performance"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Dalam beberapa hari terakhir, diskusi mengenai integrasi penuh React Forget (React Compiler) dalam ekosistem produksi kembali menjadi topik hangat bagi para *frontend engineer*. Fokus utamanya adalah bagaimana kompilator ini mengotomatisasi memoization yang selama ini kita lakukan secara manual melalui `useMemo` dan `useCallback`.
+
+Secara teknis, React Forget bekerja dengan menganalisis *control flow* kode JavaScript kita dan menyuntikkan logika memoization secara otomatis pada level kompilasi. Ini secara drastis mengurangi *boilerplate* dan meminimalisir kesalahan manusia (*human error*) dalam menentukan *dependency array* yang seringkali menjadi sumber *bug* performa.
+
+Berikut adalah ilustrasi sederhana bagaimana kompilator ini menangani komponen tanpa deklarasi manual:
+
+```javascript
+// Sebelum: Membutuhkan useMemo secara eksplisit
+function ProductList({ items }) {
+  const sorted = useMemo(() => items.sort(), [items]);
+  return <ul>{sorted.map(i => <li key={i.id}>{i.name}</li>)}</ul>;
+}
+
+// Setelah (React Forget): Kompilator mengelola memoization di balik layar
+function ProductList({ items }) {
+  const sorted = items.sort(); 
+  return <ul>{sorted.map(i => <li key={i.id}>{i.name}</li>)}</ul>;
+}
+```
+
+Implementasi ini tidak hanya membuat *codebase* kita lebih bersih, tetapi juga memastikan *re-render* yang tidak perlu dapat ditekan seminimal mungkin tanpa intervensi manual yang kompleks. Bagi tim yang sedang memigrasi aplikasi besar, ini adalah langkah maju dalam meningkatkan *web vitals* secara signifikan.
+
+Bagi rekan-rekan pengembang, saya sarankan untuk mulai bereksperimen dengan *compiler* ini pada proyek skala kecil sebelum diterapkan sepenuhnya di *production*. Efisiensi yang ditawarkan cukup menjanjikan untuk menjaga *runtime performance* tetap stabil di aplikasi yang kompleks.
