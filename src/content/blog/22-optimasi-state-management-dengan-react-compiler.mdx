@@ -1,0 +1,30 @@
+---
+title: "Optimasi State Management dengan React Compiler"
+description: "Membahas efisiensi re-rendering menggunakan React Compiler yang kini semakin stabil."
+pubDate: "2026-10-26"
+tags: ["frontend", "react", "performance"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Dalam beberapa hari terakhir, adopsi React Compiler dalam ekosistem produksi menunjukkan peningkatan performa yang signifikan. Kita tidak lagi harus bergantung sepenuhnya pada `useMemo` atau `useCallback` untuk mencegah re-render yang tidak perlu, karena kompilator kini mampu melakukan memoization otomatis pada level komponen dan hook.
+
+Secara teknis, React Compiler menganalisis *dependency graph* dari kode kita saat build-time. Hal ini mengubah cara kita menulis komponen yang reaktif. Sebagai contoh, komponen yang sebelumnya memerlukan optimasi manual kini menjadi jauh lebih bersih:
+
+```javascript
+// Sebelum: Perlu useMemo untuk mencegah komputasi ulang
+const List = ({ items }) => {
+  const sorted = useMemo(() => items.sort(), [items]);
+  return <div>{sorted.join(', ')}</div>;
+};
+
+// Sesudah: React Compiler menangani memoization secara otomatis
+const List = ({ items }) => {
+  const sorted = items.sort();
+  return <div>{sorted.join(', ')}</div>;
+};
+```
+
+Transisi ini tidak hanya mengurangi *boilerplate code*, tetapi juga meminimalisir *human error* dalam manajemen dependensi yang sering menjadi sumber bug pada aplikasi skala besar. Bagi pengembang, ini adalah langkah maju menuju DX (*Developer Experience*) yang lebih intuitif.
+
+Namun, tetap penting untuk memantau *bundle size* dan perilaku *re-render* melalui React DevTools. Meskipun kompilator melakukan tugas berat, pemahaman mendalam tentang *data flow* tetap menjadi fondasi utama seorang engineer. Selamat bereksperimen dengan implementasi terbaru ini.
