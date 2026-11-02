@@ -1,0 +1,32 @@
+---
+title: "Optimasi View Transitions API pada Aplikasi SPA"
+description: "Meningkatkan pengalaman navigasi transisi di aplikasi web modern dengan View Transitions API."
+pubDate: "2026-11-02"
+tags: ["frontend", "web-performance", "ux"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Dalam pengembangan frontend modern, transisi antar halaman yang mulus menjadi standar baru untuk meningkatkan *perceived performance*. Baru-baru ini, adopsi View Transitions API semakin matang di berbagai browser, memungkinkan kita melakukan transisi elemen UI tanpa perlu library pihak ketiga yang berat.
+
+Fitur ini bekerja dengan menangkap *snapshot* dari DOM sebelum dan sesudah perubahan, lalu melakukan animasi transisi secara otomatis. Hal ini sangat efektif untuk navigasi Single Page Application (SPA) agar tidak terasa patah-patah saat konten diperbarui.
+
+Berikut adalah implementasi dasar menggunakan `document.startViewTransition`:
+
+```javascript
+function updateUI(newData) {
+  if (!document.startViewTransition) {
+    // Fallback untuk browser lama
+    renderContent(newData);
+    return;
+  }
+
+  document.startViewTransition(() => {
+    renderContent(newData);
+  });
+}
+```
+
+Untuk hasil yang lebih profesional, jangan lupa menambahkan *CSS containment* pada elemen yang terlibat agar browser dapat mengoptimalkan proses *painting*. Gunakan properti `view-transition-name` pada CSS untuk memberikan identitas unik pada elemen yang ingin dianimasikan secara spesifik.
+
+Implementasi ini tidak hanya mempercantik UX, tetapi juga memberikan kesan aplikasi yang jauh lebih responsif. Bagi rekan-rekan pengembang, ini adalah waktu yang tepat untuk mulai mengintegrasikan API ini ke dalam *design system* aplikasi kalian. Selamat mencoba!
