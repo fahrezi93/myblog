@@ -1,0 +1,24 @@
+---
+title: "Meningkatkan Performa dengan React Compiler"
+description: "Analisis singkat mengenai optimasi re-rendering otomatis menggunakan React Compiler di ekosistem modern."
+pubDate: "2026-11-09"
+tags: ["frontend", "react", "performance"]
+featured: true
+draft: false
+---
+
+Halo, ini Fahrezi. Dalam pengembangan frontend modern, manajemen re-rendering sering kali menjadi hambatan performa yang krusial. Kehadiran React Compiler kini mengubah paradigma tersebut dengan melakukan memoization otomatis pada tingkat *compiler*, sehingga kita tidak perlu lagi bergantung secara manual pada `useMemo` atau `useCallback`.
+
+Secara teknis, compiler ini menganalisis *dependency graph* dari komponen kita dan menyuntikkan logika optimasi secara *build-time*. Hasilnya, komponen hanya akan melakukan *re-render* ketika nilai input yang relevan benar-benar berubah. Berikut adalah gambaran sederhana bagaimana kode kita menjadi lebih deklaratif:
+
+```javascript
+// Sebelum: Perlu useMemo manual
+const memoizedValue = useMemo(() => compute(a, b), [a, b]);
+
+// Sesudah: React Compiler menangani optimasi di balik layar
+const memoizedValue = compute(a, b);
+```
+
+Dengan mengadopsi pendekatan ini, *boilerplate code* berkurang secara signifikan dan kita bisa fokus pada logika bisnis. Namun, tetap penting untuk memastikan bahwa struktur data yang kita gunakan tetap *immutable* agar algoritma *diffing* compiler dapat bekerja dengan akurasi maksimal.
+
+Implementasi ini bukan sekadar tren, melainkan langkah menuju standar pengembangan aplikasi yang lebih efisien di tahun 2026. Bagi tim yang ingin meningkatkan *Core Web Vitals* tanpa menulis ulang logika komponen, mengintegrasikan compiler ini ke dalam *build pipeline* adalah langkah strategis yang sangat direkomendasikan.
